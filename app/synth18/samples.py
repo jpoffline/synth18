@@ -1,31 +1,34 @@
 import waveforms as t
 
-def loadsamples():
+
+import json
+
+def load_trackfile(filename):
+    with open('../tracks/' + filename + '.track') as json_data:
+        d = json.load(json_data)
+    return d
+
+def generatesamples():
     
     e = t.ENVELOPE()
     duration = 0.2
 
-    s1 = t.SINEWAVE(duration, 240)
-    s2 = t.SINEWAVE(duration, 480)
+    s1 = t.SINEWAVE(duration, 280)
+    s2 = t.SINEWAVE(duration, 290)
     s3 = t.SINEWAVE(duration, 2040)
-
     s4 = t.SINEWAVE(duration, 4000)
 
-    sample1 = s1.get() * e.get()
-    sample2 = s2.get() * e.get()
-    sample3 = s3.get() * e.get()
+    whitenoise = t.WHITENOISE()
 
-    
-    
-    sn = t.SNAREDRUM(fac = 2.5)
+    sn       = t.SNAREDRUM(fac = 2.5)
     sn_short = t.SNAREDRUM(fac = 1)
-    snare = sn.get()
+    sn_db = t.DOUBLESNARE()
 
 
     s2 = {
-        'bass': sample1,
-        'sample2':sample2,
-        'snare':snare,
-        'snare_short': sn_short.get()
+        'bass': (s1.get() + s2.get() ) * e.get(),
+        'sample2':s2.get() * e.get(),
+        'snare':sn.get(),
+        'snare_double': sn_db.get()
     }
     return s2

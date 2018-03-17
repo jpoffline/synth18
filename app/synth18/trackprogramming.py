@@ -1,5 +1,5 @@
 
-def validate_trackvec(track_vec, req_ln = 8):
+def validate_trackvec(track_vec, req_ln = 16):
     return len(track_vec) == req_ln
 
 
@@ -34,5 +34,5 @@ def tracks_to_bin(tracks):
         seqs.append(tracks[k]['bin'])
         smpln.append(tracks[k]['sample'])
 
-    return { 'bin':zip(*seqs), 'names':smpln }
+    return { 'sequences':zip(*seqs), 'names':smpln }
     

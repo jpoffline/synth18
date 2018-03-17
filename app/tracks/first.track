@@ -1,0 +1,17 @@
+{
+    "name": "beat1",
+    "track": {
+        "track1": {
+            "sequence": " - + - + - + - + - + - + - + - + ",
+            "sample": "snare"
+        },
+        "track2": {
+            "sequence": " + + + - + - + ++ - + - + - + - ",
+            "sample": "bass"
+        },
+        "track3": {
+            "sequence": " + - + - + - + - + - + - + - + - ",
+            "sample": "snare_double"
+        }
+    }
+}

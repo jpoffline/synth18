@@ -1,7 +1,7 @@
 
 
 import numpy as np
-import test as t
+import config as t
 SAMPLERATE = t.SAMPLERATE
 
 class SAMPLE(object):
@@ -46,6 +46,14 @@ class SNAREDRUM(object):
         vals = [np.exp(-self._decay * i) for i in xrange(0, SAMPLERATE)]
         return np.array(vals).astype(np.float32) * env.get()
 
+class DOUBLESNARE(object):
+    def __init__(self, fac = 1):
+        self._decay = 0.001 / fac
+    def get(self):
+        env = WHITENOISE()
+        vals = [np.exp(-self._decay * i) for i in xrange(0, SAMPLERATE / 2)]
+        vals[SAMPLERATE / 2:SAMPLERATE] = [np.exp(-self._decay * i) for i in xrange(0, SAMPLERATE / 2)]
+        return np.array(vals).astype(np.float32) * env.get()
 
 class WHITENOISE(object):
     def __init__(self):
