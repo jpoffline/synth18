@@ -1,7 +1,10 @@
 
 from flask import Flask, jsonify, render_template, request
-
+import synth18.trackprogramming as tp
 app = Flask(__name__)
+
+GLOBAL = {}
+
 
 @app.route('/')
 def index():
@@ -14,13 +17,25 @@ def render_static(page_name):
 def echo():
     return render_template('index.html', name = request.form['text']) 
 
+@app.route("/load_trackfile", methods=['POST'])
+def loadtrackfile():
+    import synth18.samples as smp
+    tf = smp.load_trackfile(
+            request.form['trackfilename'], root='tracks/')
 
-@app.route("/opts", methods=['POST'])
-def echo2():
+    GLOBAL['trackfile'] = tf
+    tf['html'] = tp.trackfile_to_html(tf)
+    return render_template('index.html', trackprogramming = tf) 
+
+@app.route("/play_track", methods =['POST'])
+def play_track():
+    print 'play track'
+    print request.form['trackprog']
     d = dict(request.form)
-    pads_active = d['pad-tick']
-    print pads_active
-    return render_template('index.html', name = 'jonny') 
+    tp.parse_track_userinput(d)
+
+    return render_static('index')
+
 
 if __name__ == '__main__':
     app.run()

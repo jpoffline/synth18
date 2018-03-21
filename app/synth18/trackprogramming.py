@@ -36,3 +36,41 @@ def tracks_to_bin(tracks):
 
     return { 'sequences':zip(*seqs), 'names':smpln }
     
+
+def trackfile_to_html(tf):
+    thtml = '<h2>Track programming</h2>'
+    thtml += '<h3>' + tf['name'] + '</h3>'
+    thtml += '<div class="container">'
+    
+    for tn, ti in tf['track'].iteritems():
+        thtml += '<div class="row">'
+        thtml += '<div class="col-1"><b>' + tn + '</b></div>' 
+        thtml += '<div class="col-1">' + ti['sample'] + '</div>'
+        thtml += '<div class="col-4">'
+        tk = trackvec_to_binary(blowup_trackstring(ti['sequence']))
+        n = 0
+        for tki in tk:
+            if tki:
+                thtml += '<input type="checkbox" name="trackprog" value="' + tn + '-' + ti['sample'] + '-' + str(n) + '" checked>'
+            else:
+                thtml += '<input type="checkbox" name="trackprog" value="' +  tn + '-' + ti['sample'] + '-' + str(n) + '">'
+            n = n + 1
+        thtml += '</div></div>'
+        
+    return thtml +'</div>'
+
+
+
+def parse_track_userinput(ui):
+
+    track_ui = [i.split('-') for i in ui['trackprog']]
+    ui_parsed = {}
+
+    for tui in track_ui:
+        print tui[0], tui[1], tui[2]
+        track_name = tui[0]
+        sample_name = tui[1]
+        playit = tui[2]
+        if not track_name in ui_parsed:
+            ui_parsed[track_name] = {'sample':sample_name, 'sequence':''}
+    print ui_parsed

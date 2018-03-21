@@ -2,32 +2,21 @@
 {% extends 'prototype.html' %}
 {% block content %}
     
-<button type='button' class='btn btn-info fullwidth'>start</button>
+
 
 <h1 class="mt-5">Synth</h1>
 
+<form action="/load_trackfile" method="POST">
+    <input name="trackfilename" value="first">
+    <input type="submit" value="load">
+</form>
 
-
-{% if name %}
-{{ name }}
+{% if trackprogramming %}
+<form action="/play_track" method="POST">
+{{trackprogramming.html|safe}}
+<button type='submit' class='btn btn-info fullwidth'>Play track</button>
+</form>
 {% endif %}
-
-<form action="/start_playing" method="POST">
-    <input name="text">
-    <input type="submit" value="Echo">
-</form>
-
-
-<form action="opts" method="POST">
-        {% for r in [1,2,3,4] %}
-            {% for c in [1,2,3,4] %}
-                <input type="checkbox" name="pad-tick" value="{{ c }}{{ r }}">
-            {% endfor %}
-            <br>
-        {% endfor %}
-    <input type="submit" value="go">
-</form>
-
 
 
 {% endblock %}

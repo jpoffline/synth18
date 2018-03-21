@@ -3,8 +3,8 @@ import envelopes as env
 
 import json
 
-def load_trackfile(filename):
-    with open('../tracks/' + filename + '.track') as json_data:
+def load_trackfile(filename, root = '../tracks/'):
+    with open(root + filename + '.track') as json_data:
         d = json.load(json_data)
     return d
 
