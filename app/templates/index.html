@@ -1,15 +1,23 @@
 
 {% extends 'prototype.html' %}
 {% block content %}
-    
-
 
 <h1 class="mt-5">Synth</h1>
 
 <form action="/load_trackfile" method="POST">
     <input name="trackfilename" value="first">
-    <input type="submit" value="load">
+    <input type="submit" value="load" class='btn btn-info fullwidth'> 
 </form>
+
+<form action="/play_sine" method="POST">
+    <input name="sinefreq" value=440 type="number">
+    <button type="submit" value="load" class='btn btn-info fullwidth'>
+        Play sine
+    </button>
+</form>
+
+
+
 
 {% if trackprogramming %}
 <form action="/play_track" method="POST">

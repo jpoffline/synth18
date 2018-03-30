@@ -12,6 +12,22 @@
         "track3": {
             "sequence": " - - - - - - - - - - - - - - - - ",
             "sample": "snare_double"
+        },
+        "a4": {
+            "sequence": " + - - - - - - - - - - - - - - - ",
+            "sample": "a4"
+        },
+        "bb4": {
+            "sequence": " - + - - - - - - - - - - - - - - ",
+            "sample": "bb4"
+        },
+        "b4": {
+            "sequence": " - - + - - - - - - - - - - - - - ",
+            "sample": "b4"
+        },
+        "c5": {
+            "sequence": " - - - + - - - - - - - - - - - - ",
+            "sample": "c5"
         }
     }
 }

@@ -67,10 +67,20 @@ def parse_track_userinput(ui):
     ui_parsed = {}
 
     for tui in track_ui:
-        print tui[0], tui[1], tui[2]
         track_name = tui[0]
         sample_name = tui[1]
-        playit = tui[2]
+        playit = int(tui[2])
         if not track_name in ui_parsed:
-            ui_parsed[track_name] = {'sample':sample_name, 'sequence':''}
-    print ui_parsed
+            ui_parsed[track_name] = {'sample':sample_name, 'sequence':[False for i in xrange(0,16)]}
+        ui_parsed[track_name]['sequence'][playit] = True
+    
+    for k,v in ui_parsed.iteritems():
+        s = ''
+        for p in ui_parsed[k]['sequence']:
+            if p:
+                s += '+'
+            else:
+                s += '-'
+        ui_parsed[k]['sequence'] = s
+
+    return ui_parsed

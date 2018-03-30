@@ -1,10 +1,12 @@
-import trackprogramming as tp
-import reporting as report
-import numpy as np
-import samples as smp
-import pyaudio
-import config as t
 import json
+import numpy as np
+import pyaudio
+
+import synth18.trackprogramming as tp
+import synth18.reporting as report
+import synth18.samples as smp
+import synth18.config as t
+
 
 class PLAYER_PYADUDIO(object):
     def __init__(self):
@@ -28,10 +30,13 @@ class PLAYER_PYADUDIO(object):
 
 
 class PLAYER(object):
-    def __init__(self, trackfile):
+    def __init__(self, trackfile=None):
         self._trackfile = trackfile
         self._logger = report.LOGGER()
         self._player = PLAYER_PYADUDIO()
+        self._sequences = None
+        self._tracks = None
+        self._samples = None
         pass
 
     def play(self):
@@ -44,22 +49,40 @@ class PLAYER(object):
         trackfile = smp.load_trackfile(self._trackfile)
 
         self._logger.write('playing ' + trackfile['name'])
-        sequences = tp.tracks_to_bin(trackfile['track'])
+        
 
-        tracks = trackfile['track']
+        self.set_tracks(trackfile['track'])
+        self._play_samples_sequences()
+
+        self._logger.write('done')
+
+    def set_sequences(self, seq):
+        self._sequences = seq
+        
+    def set_tracks(self, tr):
+        self._tracks = tr
+        self.set_sequences(tp.tracks_to_bin(tr))
+
+    def gen_samples(self):
         self._logger.write('generating samples')
-        samples = smp.generatesamples()
+        self._samples = smp.generatesamples()
+
+
+    def _play_samples_sequences(self):
+        self.gen_samples()
 
         self._logger.write('playing')
         beatnum = 1
-        for beat in sequences['sequences']:
+        for beat in self._sequences['sequences']:
             sound = (np.zeros(t.SAMPLERATE)).astype(np.float32)
-            for track in xrange(0, len(tracks)):
+            for track in xrange(0, len(self._tracks)):
                 if beat[track]:
-                    sound = np.add(sound, samples[sequences['names'][track]])
+                    sound = np.add(sound, self._samples[self._sequences['names'][track]])
             self._player.write(sound)
             beatnum += 1
 
         self._player.close()
 
-        self._logger.write('done')
+    def play_sample(self, sample):
+        self._player.write(sample)
+        self._player.close()

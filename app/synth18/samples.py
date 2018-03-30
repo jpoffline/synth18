@@ -14,23 +14,33 @@ def generatesamples():
     duration = 0.2
 
     s1 = t.SINEWAVE(duration, 280)
-    s2 = t.SINEWAVE(duration, 290)
-    s3 = t.SINEWAVE(duration, 2040)
-    s4 = t.SINEWAVE(duration, 4000)
-
-    
-
-    whitenoise = t.WHITENOISE()
 
     sn       = t.SNAREDRUM(fac = 2.8)
     sn_short = t.SNAREDRUM(fac = 1)
     sn_db    = t.DOUBLESNARE()
 
 
-    s2 = {
-        'bass': (s1.get()  ) * e.get() ,
-        'sample2':s2.get() * e.get(),
-        'snare':sn.get(),
-        'snare_double': sn_db.get()
+    return {
+        'bass': s1.get() * e.get() ,
+        'snare': sn.get(),
+        'snare_double': sn_db.get(),
+        'a4':note_a4(),
+        'bb4':note_bb4(),
+        'b4':note_b4(),
+        'c5':note_c5()
     }
-    return s2
+
+
+def get_sine(freq = 440, duration = 0.2):
+    sine = t.SINEWAVE(duration, freq)
+    return sine.get()
+
+
+def note_a4():
+    return get_sine(440)
+def note_bb4():
+    return get_sine(466.16)
+def note_b4():
+    return get_sine(493.88)
+def note_c5():
+    return get_sine(523.25)
